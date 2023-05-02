@@ -1,0 +1,17 @@
+./local_packages/pytz-2022.7.1-py2.py3-none-any.whl
+./local_packages/sqlparse-0.4.3-py3-none-any.whl
+./local_packages/django_model_utils-4.3.1-py3-none-any.whl
+./local_packages/tzdata-2022.7-py2.py3-none-any.whl
+./local_packages/urllib3-1.26.15-py2.py3-none-any.whl
+./local_packages/Django-4.1.7-py3-none-any.whl
+./local_packages/djangorestframework-3.14.0-py3-none-any.whl
+./local_packages/autopep8-2.0.2-py2.py3-none-any.whl
+./local_packages/tomli-2.0.1-py3-none-any.whl
+./local_packages/requests-2.28.2-py3-none-any.whl
+./local_packages/idna-3.4-py3-none-any.whl
+./local_packages/charset_normalizer-3.1.0-py3-none-any.whl
+./local_packages/PyJWT-2.6.0-py3-none-any.whl
+./local_packages/djangorestframework_simplejwt-5.2.2-py3-none-any.whl
+./local_packages/certifi-2022.12.7-py3-none-any.whl
+./local_packages/asgiref-3.6.0-py3-none-any.whl
+./local_packages/pycodestyle-2.10.0-py2.py3-none-any.whl

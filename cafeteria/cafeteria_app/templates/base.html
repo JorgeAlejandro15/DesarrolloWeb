@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>El Zorrillo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/proveedores.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap5.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/fonts/bootstrap-icons.woff' %}"> 
+    <link rel="stylesheet" href="{% static 'css/fonts/bootstrap-icons.woff2' %}">   
+ 
+</head>
+<body>
+    
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-1 nav-wrap">  
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">El Zorrillo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>   
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Combo</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Proveedores
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/registrar">Registrar Proveedor</a></li> 
+                        <li><a class="dropdown-item" href="/listarProveedor">Ver Proveedores</a></li> 
+                         {% comment %} <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/listarProducto">Ver Productos</a></li> {% endcomment %}
+                    </ul>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input id="buscar" class="form-control me-2 buscar" type="search" placeholder="Search" aria-label="Search">
+                <button id="boton" class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </nav>
+        <div class="container py-4"></div>
+
+        
+   {% block body %}
+    
+   {% endblock %}
+   <!-- <div class="container py-5"></div> -->
+   <!-- <br><br> -->
+
+   <footer class=" text-center text-white footer" style="background-color: #333;">
+    <!-- Grid container -->
+    <div class="container p-3 pb-1 ">
+      <!-- Section: Social media -->
+      <section class="mb-2">
+        <!-- Facebook -->
+        <a class="btn btn-outline-primary btn-sm" href="https://www.facebook.com/" target="_blank" role="button" style="border: none;">
+          <img src="{% static 'img/facebook.svg' %}" alt="Facebook" width="20" title="Facebook"> 
+        </a>
+        <!-- Twitter -->
+        <a class="btn btn-outline-info btn-sm" href="https://twitter.com/?lang=es" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/twitter.svg' %}" alt="Twitter" width="20" title="Twitter">
+        </a>
+  
+        <!-- Google -->
+        <a class="btn btn-outline-success btn-sm" href="https://www.google.com/" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/google.svg' %}" alt="Google" width="20" title="Google">
+        </a>
+  
+        <!-- Instagram -->
+        <a class="btn btn-outline-danger btn-sm" href="https://www.instagram.com/" role="button" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/instagram.svg' %}" alt="Instagram" width="20" title="Instagram">
+        </a>
+  
+        <!-- Linkedin -->
+        <a class="btn btn-outline-primary btn-sm" href="https://es.linkedin.com/" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/linkedin.svg' %}" alt="Linkedin" width="20" title="Linkedin">  
+        </a>
+  
+        <!-- Github -->
+        <a class="btn btn-outline-light btn-sm" href="https://github.com/" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/github.svg' %}" alt="Github" width="20" title="Github">
+        </a> 
+      </section>           
+    </div>
+    <!-- Grid container -->             
+      <div class="text-center p-2">
+        Copyright © 2023: 
+        <b class="text-white">Ruso</b>
+      </div>     
+  </footer>
+    
+ {% block script%}
+   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <script src="{% static 'js/proveedores.js' %}"></script> 
+   <script src="{% static 'js/validacionProv.js' %}"></script> 
+   <script src="{% static 'js/sweetalert2.all.js' %}"></script> 
+   <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+   <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>       
+   <script src="{% static 'js/dataTables.bootstrap5.min.js' %}"></script> 
+   <script src="{% static 'js/proveedores.js' %}">$('#datatable').DataTable()</script>         
+    {% if messages %}
+      {% for m in messages %}
+        {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <script>
+          Swal.fire({
+            "icon": 'success', 
+            "background": '#e1e6d3',  
+            "title": 'Felicitaciones', 
+            "text": '{{m}}'          
+        })
+        </script> 
+        {% endif %}  
+        {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <script>
+          Swal.fire({
+            "icon": 'error', 
+            "background": '#e1e6d3',  
+            "title": 'Error', 
+            "text": '{{m}}'          
+        })
+        </script> 
+        {% endif %} 
+      {% endfor %}
+    {% endif %}
+  {% endblock %}
+</body>
+</html>

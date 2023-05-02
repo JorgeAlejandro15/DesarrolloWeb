@@ -1,0 +1,43 @@
+{% extends "./base.html" %}
+ {% load static %} 
+
+{% block body %} 
+<div class="container py-4">
+     <div class="row">
+         <div class="col-sm-12 col-md-6 col-lg-4 pb-4 mx-auto"> 
+             
+             <h3 style="margin-left: 59px;">Editar Producto</h3>
+             <div class="card border-dark" style="width: 20rem;">
+                 <div class="card-body">
+                     <form id="formularioProv2" action="/editarProducto/" method="POST">{% csrf_token %}
+                        <div class="form-group pb-2 d-none">
+                            <input type="text" name="id" value="{{productos.id}}" id="txtid" class="form-control form-input" placeholder="id" required readonly>
+                        </div>
+                        <div class="form-group pb-2 d-none">             
+                            <input type="text" name="ci" value="{{productos.proveedor.ci}}" id="txtci" class="form-control form-input" placeholder="Carnet de Identidad" minlength="11" maxlength="11" required readonly>
+                            </div>
+                         <div class="form-group pb-2">
+                             <input type="text" name="nombre" value="{{productos.proveedor.nombre}}" id="txtnombre" class="form-control form-input" placeholder="Nombre" required readonly>
+                         </div>
+                         <div class="form-group pb-2">
+                             <input type="text" name="producto" value="{{productos.nombre}}" id="productos" class="form-control form-input" placeholder="Producto"  required>
+                         </div>                                          
+                        
+                         <div class="form-group d-grid gap-2">
+                             <button type="submit" class="btn btn-success  text-white">Guardar</button>
+                         </div>                       
+                          
+                     </form> 
+                 </div> 
+             </div>
+         </div>
+
+     </div>    
+    </div>
+    <br>
+    {% endblock %}
+    {% block script %}
+       <script src="{% static 'js/validacionProd.js' %}"></script>
+       <script src="{% static 'js/sweetalert2.all.js' %}"></script> 
+       <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% endblock %}

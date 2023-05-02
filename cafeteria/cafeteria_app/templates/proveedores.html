@@ -1,0 +1,52 @@
+{% extends "./base.html" %}
+ {% load static %} 
+
+{% block body %}    
+    
+    <div class="container py-3 ">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-6 col-lg-4  mx-auto">
+                <h3 style="margin-left: 11px;">Gestión de Proveedores</h3> 
+                <div class="card border-dark" style="width: 20rem;">
+                    <div class="card-body">
+                        <form id="formularioProv" action="/registrarProveedor/" method="POST">{% csrf_token %} 
+                             
+                            <div class="form-group pb-2">             
+                                <input type="text" name="ci" id="txtci" class="form-control" placeholder="Carnet de Identidad"
+                                 minlength="11" maxlength="11" autofocus required> 
+                                </div>
+                            <div class="form-group pb-2 ">
+                                <input type="text" name="nombre" id="txtnombre" class="form-control" placeholder="Nombre"
+                                   maxlength="50" minlength="3" required> 
+                            </div>
+                            <div class="form-group pb-2">
+                                <input type="text" name="telefono" id="txttelefono" class="form-control" placeholder="Teléfono" 
+                                minlength="8" maxlength="10" required >
+                            </div>
+                            <div class="form-group pb-2">
+                                <div class="input-group">
+                                    <span class="input-group-text " id="arroba">@</span>
+                                    <input type="text" name="correo" id="txtcorreo" class="form-control" placeholder="Correo" aria-describedby="arroba"
+                                    minlength="11" maxlength="200" required> 
+                                </div>
+                            </div>
+                            <div class="form-group pb-2" id="list_productos">
+                                <button type="button" onclick="add_producto()" class="btn btn-primary">Adicione un Producto</button>
+                            </div>
+                            <div class="form-group d-grid gap-2">
+                                <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            </div>                        
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <br><br>
+    
+{% endblock %} 
+
+ 
