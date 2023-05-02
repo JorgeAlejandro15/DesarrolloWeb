@@ -12,7 +12,7 @@
     >> pip install -r requirements_local.txt
 
 5- Entrar a la carpeta de la aplicacion:
-    >> cd Universidad
+    >> cd cafeteria
 
 6- Levantar el proyecto:
     >> python manage.py runserver
