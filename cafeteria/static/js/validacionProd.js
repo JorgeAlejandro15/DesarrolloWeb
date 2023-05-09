@@ -1,7 +1,9 @@
-const $txtproducto = document.getElementById('productos'); 
+const $txtproducto = document.getElementById('producto'); 
 const $formularioProve = document.getElementById('formularioProv2'); 
 
-    (function () {
+
+
+(function () {
     $formularioProve.addEventListener('submit', function(y) {
     const regex = /^[a-zA-Z\s]*$/;                              // Expresión regular para que reconozca solo letras
     let producto = String($txtproducto.value).trim();            //Para validar el nombre de los productos
@@ -17,3 +19,5 @@ const $formularioProve = document.getElementById('formularioProv2');
    }
 });
 })();
+
+

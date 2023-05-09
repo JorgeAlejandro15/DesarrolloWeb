@@ -3,7 +3,8 @@ from .views import ProveedorClass, ProductoClass
 from . import views   
 
 urlpatterns = [
-    path('',views.Principal),
+    path('',views.Principal, name="principal"),
+    path('registro/', views.registro, name='registro'), 
     path('',ProveedorClass.as_view(), name='GestiónProveedores'),  
     path('listarProveedor/', ProveedorClass.listarProveedor),   
     path('listarProducto/<ci>', ProductoClass.listarProducto),     

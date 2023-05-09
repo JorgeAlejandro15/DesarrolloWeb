@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/proveedores.css' %}">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+    {% load crispy_forms_tags %}
+    <br>
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-5 mx-auto">
+                <div class="card border-dark" >
+                    <div class="card-body">
+                        <h3 style="text-align: center; background-color: rgb(90, 247, 226);">Cree una cuenta</h3>                         <form action="" method="POST" >
+                            {% csrf_token %}
+
+                                {{form | crispy}}
+                                <a href="/"  id="enlace" class="btn btn-secondary me-3">Inicio</a> 
+                                <a href="{% url 'login' %}" style="text-decoration: none;">Iniciar Sesión</a>
+                                <input type="submit" class="btn btn-primary " value="Registrarse" style="float:right;">
+                                  
+                                      
+                          
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

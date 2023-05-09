@@ -8,7 +8,7 @@ function add_producto() {
   <div class="form-group pb-2 mt-2">
   <div class="input-group ">
   <input type="text" class="form-control" name="nombre_producto" id="productos" placeholder="Nombre del producto"
-   pattern = "[a-zA-Z]+" oninvalid=" event.target.setCustomValidity('El producto solo puede contener letras')">  
+  pattern = "[a-zA-Z]+" oninvalid="event.target.setCustomValidity('El producto solo puede contener letras') ">  
   <button type="button" onclick="delete_rango(this)" class="btn btn-danger" aria-label="Left Align" style="padding-block:0px;"><strong>X</strong></button>
   </div>
   </div>`);

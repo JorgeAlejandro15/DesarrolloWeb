@@ -4,7 +4,7 @@ const $txtnombre = document.getElementById('txtnombre');
 const $txtci = document.getElementById('txtci');
 const $txtelefono = document.getElementById('txttelefono');
 const $txtcorreo = document.getElementById('txtcorreo');
-
+const $producto = document.getElementsByName("nombre_producto");  
  
 
 (function () {
@@ -34,8 +34,8 @@ const $txtcorreo = document.getElementById('txtcorreo');
    }
     
    const regex = /^[a-zA-Z\s]*$/;                      // Expresión regular para que reconozca solo letras
-
-    if (!nombre.match(regex)) {
+   
+    if (!nombre.match(regex)) { 
         x.preventDefault();
         Swal.fire({
             icon: 'error',

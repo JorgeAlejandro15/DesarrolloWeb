@@ -1,50 +1,46 @@
 from django.shortcuts import render , redirect
 from .models import Proveedor,Producto       
-from .forms import ProveedorForm 
+from .forms import CustomUserCreationForm
+from django.contrib.auth import authenticate,login  
+from django.contrib.auth.decorators import permission_required     
 #nuevo
 from django.views.generic import ListView
 from django.db import IntegrityError 
 from django.contrib import messages 
-from django.http.response import JsonResponse  
+  
 # Create your views here.
 
 def Principal(request):
     return render(request,"Principal.html")
 
-def stringL(lista):   #función para convertir a String una lista
-    lista = lista
-    s = ''
-    for i in lista:
-        s+= f'{i}, '
-    s = s[0:-2] 
-    return s
+
+def registro(request):
+    data = {
+        'form': CustomUserCreationForm()
+    }
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()    
+            user = authenticate(username=formulario.cleaned_data['username'], password = formulario.cleaned_data['password1'])
+            login(request, user)
+            messages.success(request, "Te has registrado satisfactoriamente")
+            return redirect(to="principal")
+        data['form'] = formulario 
+    return render(request, 'registration/registro.html' , data)         
+
 
 
 class ProveedorClass(ListView):
     Model = Proveedor
     template_name = 'proveedores.html' 
    
-
-    # def registrarProveedor(request): 
-    #     proveedores = Proveedor.objects.all()  
-    #     data = {
-    #         'form': ProveedorForm()
-    #     }
-    #     if request.method == 'POST':
-    #         proveedores = ProveedorForm(data=request.POST)
-    #         if proveedores.is_valid():
-    #             proveedores.save()
-    #             messages.success(request,"El proveedor se ha registrado")
-    #             return redirect('/')
-    #         else:
-    #             data["form"] = proveedores  
-    #     return render(request,'proveedores.html',data) 
-
+    @permission_required('cafeteria.add_RegProv')
     def RegProv(request):
         return render(request, "proveedores.html")
 
 
-
+    @permission_required('cafeteria.add_registrarProveedor')
     def registrarProveedor(request):  
         try:
             ci = request.POST['ci']
@@ -53,8 +49,6 @@ class ProveedorClass(ListView):
             correo = request.POST['correo']
            
             proveedor = Proveedor.objects.create(ci=ci, nombre=nombre, telefono = telefono, correo = correo)
-            # productos = request.POST.get('nombre_producto')
-            # productos = stringL(productos)   
             
             nombre_producto = request.POST.getlist('nombre_producto')  
             precio = 0
@@ -62,7 +56,7 @@ class ProveedorClass(ListView):
                 nombres = nombre_producto[i]
                 producto = Producto(nombre=nombres,precio=precio,proveedor=proveedor) 
                 producto.save()   
-            # proveedor.productos.add(*productos)
+           
             
              
             messages.success(request,"El proveedor se ha registrado")
@@ -75,6 +69,7 @@ class ProveedorClass(ListView):
                 return render(request, "proveedores.html")   
 
 
+    @permission_required('cafeteria.view_listarProveedor')
     def listarProveedor(request):
         proveedoresL = Proveedor.objects.all()  
         # productos = Producto.objects.filter(proveedor = proveedoresL)
@@ -88,12 +83,13 @@ class ProveedorClass(ListView):
         return render(request,"listarProveedores.html",data)             
 
     
-                
+    @permission_required('cafeteria.change_edicionProveedor')           
     def edicionProveedor(request,ci): 
         proveedor = Proveedor.objects.get(ci=ci)
         return render(request, "edicionProveedor.html", {"proveedor": proveedor})
 
 
+    @permission_required('cafeteria.change_edicionProveedor')
     def editarProveedor(request):
         ci = request.POST['ci']       # ci es el nombre que tiene el input en el html
         nombre = request.POST['nombre']
@@ -109,7 +105,7 @@ class ProveedorClass(ListView):
         messages.success(request,"El proveedor ha sido actualizado")
         return redirect('/listarProveedor/') 
   
-
+    @permission_required('cafeteria.delete_edicionProveedor')
     def eliminarProveedor(request, ci):
         proveedor = Proveedor.objects.get(ci=ci)  
         proveedor.delete() 
@@ -158,10 +154,10 @@ class ProductoClass(ListView):
         producto = Producto.objects.get(id=id) 
         ci = producto.proveedor.ci 
         proveedor = Proveedor.objects.get(ci=ci) 
-        productos = Producto.objects.filter(proveedor=proveedor) 
+        productos = Producto.objects.filter(proveedor=proveedor)  
         data = {
-            'productos':productos 
+            'productos':productos   
         }
         producto.delete() 
-        messages.success(request,"El producto ha sido eliminado")
-        return render(request, "listarProducto.html" ,data)   
+        messages.success(request,"El producto ha sido eliminado") 
+        return render(request, "listarProducto.html" ,data)      
