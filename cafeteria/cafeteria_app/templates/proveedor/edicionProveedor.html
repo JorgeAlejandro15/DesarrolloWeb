@@ -1,8 +1,8 @@
-{% extends "./base.html" %}
+{% extends "base.html" %}
  {% load static %} 
 
 {% block body %} 
-<div class="container py-4">
+<div class="container py-3">
      <div class="row">
          <div class="col-sm-12 col-md-6 col-lg-4 pb-4 mx-auto"> 
              <!-- col-md-3 offset-md-4 text-center -->
@@ -25,6 +25,9 @@
                             <input type="text" name="correo" value="{{proveedor.correo}}" id="txtcoreo" class="form-control form-input"
                              placeholder="Correo" minlength="11" maxlength="200" aria-describedby="arroba" required>
                             </div> 
+                        </div>
+                        <div class="form-group pb-2" >
+                            <textarea name="descripcion"  id="txtarea" rows="3" class="form-control" style="max-height:200px;" placeholder="Escriba una descripción">{{proveedor.descripcion}}</textarea>
                         </div>
     
                          <div class="form-group d-grid gap-2">

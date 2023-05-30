@@ -1,5 +1,5 @@
-{% extends "./base.html" %}
- {% load static %} 
+{% extends "base.html" %}
+{% load static %} 
 
 {% block body %}  
 
@@ -12,13 +12,28 @@
                           
                     <div class="carousel-inner">         
                       <div class="carousel-item active d-item">
-                        <img src="{% static 'img/pexels.jpg' %}" class="d-block imagen w-100" alt="flor">                          
+                        <img src="{% static 'img/food.jpg' %}" class="d-block imagen w-100" alt="food"> 
+                        <div class="carousel-caption  d-md-block">
+                          <h3>Etiqueta de la primera diapositiva</h3>
+                          <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
+                          <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                        </div>                         
                       </div>
                         <div class="carousel-item d-item">
-                          <img src="{% static 'img/b.jpg' %}" class="d-block w-100 imagen" alt="luna"> 
+                          <img src="{% static 'img/pan1.jpg' %}" class="d-block w-100 imagen" alt="pan"> 
+                          <div class="carousel-caption  d-md-block">
+                            <h3>Etiqueta de la primera diapositiva</h3>
+                            <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
+                            <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                          </div>
                         </div>
                         <div class="carousel-item d-item">
-                          <img src="{% static 'img/c.jpg' %}" class="d-block w-100 imagen" alt="nota"> 
+                          <img src="{% static 'img/pastel.jpg' %}" class="d-block w-100 imagen" alt="nota">
+                          <div class="carousel-caption  d-md-block">
+                            <h3>Etiqueta de la primera diapositiva</h3>
+                            <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
+                            <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                          </div> 
                         </div>
                       </div>
                       <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">                         
@@ -30,8 +45,42 @@
                         <span class="visually-hidden">Siguiente</span>
                       </button>
                 </div>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis voluptas, ipsam amet quae consectetur
-   blanditiis. Qui nemo minima tempora nam cumque, ex vitae eligendi laborum neque! Rem sint cupiditate nemo.</p>
-         
+                
+                
+                <div class="container py-3">
+                  <h2>Productos</h2>
+                  <div class="row row-cols-2 row-cols-md-4 mb-3 text-center mt-3"> 
+                    {% for p in productos %}
+                    <div class="col">
+                      <div class="card mb-3 rounded-3 shadow-sm border-dark">
+                        <div class="card-header py-2 bg-danger">
+                          <h4 class="my-0 fw-normal text-white "> {{p.nombre}} </h4>
+                        </div>
+                        <div class="card-body">
+                          <div class="contenedor">
+                            <img src=" {{ p.imagen.url }} " alt="" style="height: 8rem; width: 8rem;" class="img-thumbnail img">
+                          </div>
+                          <h2 class="card-title pricing-card-title"> {{p.precio}} <small class="text-muted fw-light">/cup</small>
+                          </h2>
+                          <ul class="list-unstyled mt-3 mb-3">
+                            <li>Cantidad de productos: {{p.cantidad_productos}}</li>
+                          </ul>
+<!--                           
+                          <a href="{% url 'restar' p.id %}" class="badge btn btn-dark" >-</a>
+                          <span>{{value.cantidad}}</span> 
+                          <a href="{% url 'agregar' p.id %}" class="badge btn btn-dark">+</a> -->
+
+                          <a class=" btn btn-md btn-outline-danger" href="{% url 'agregar' p.id %}">
+                            <i class="bi bi-cart4"></i> Agregar al carrito</a> 
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+               
           <br>
+           {% endblock %} 
+           {% block extrajs %}
+            
            {% endblock %}

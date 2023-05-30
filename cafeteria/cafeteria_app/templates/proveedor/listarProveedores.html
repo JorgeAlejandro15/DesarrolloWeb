@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends "base.html" %}
  {% load static %} 
 
 {% block body %}  
@@ -18,7 +18,7 @@
                                 <th class="centered"> Nombre </th>
                                 <th class="centered"> Teléfono </th> 
                                 <th class="centered"> Correo </th>
-                                <th class="centered"> Productos </th>  
+                                <th class="centered"> Descripción </th>  
                                 <th class="centered">Opciones</th>
                                 
                                 
@@ -32,15 +32,13 @@
                                     <td>{{p.nombre}}</td>
                                     <td>{{p.telefono}}</td>
                                     <td>{{p.correo}}</td>                                  
-                                    <td>
-                                        <a href="/listarProducto/{{p.ci}}" class="btn btn-secondary bi bi-table" title="Listado de Productos"></a>
-                                    </td>                                                    
+                                    <td >{{p.descripcion}}</td>                                                     
                                     <td>
                                     <a href="/edicionProveedor/{{p.ci}}" class="btn btn-info btn-sm bi bi-pencil" title="Editar">
                                         <!-- <img src="{% static 'img/pencil.svg' %}" alt="Editar" width="15" title="Editar"> -->
                                     </a>
                                 
-                                    <a href="/eliminarProveedor/{{p.ci}}" class="btn btn-danger btn-sm btnEliminacion bi bi-trash" title="Eliminar"> </a>
+                                    <a href="/eliminarProveedor/{{p.ci}}" class="btn btn-danger btn-sm btnEliminacion bi bi-trash" title="Eliminar"> </a> 
                                 </td>
     
                                 </tr>

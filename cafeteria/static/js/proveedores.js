@@ -145,7 +145,7 @@ $(document).ready(function () {
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Aceptar',
-                cancelButtonText: 'Cancelar',
+                cancelButtonText: 'Cancelar', 
                 allowOutsideClick: () => false,
                 allowEscapeKey: () => false,
                 allowEnterKey: false,  
@@ -173,5 +173,3 @@ $(document).ready(function () {
   
 })(); 
 
-
-   

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      {% load static %}
+    {% load static %}
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type="image/jpg">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/proveedores.css' %}">
     <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap5.min.css' %}">
@@ -15,65 +16,167 @@
  
 </head>
 <body>
-    
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-1 nav-wrap">  
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#">El Zorrillo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Inicio</a>   
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Productos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Contactos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Preguntas Frecuentes</a>
-                </li>
-                {% if request.user.is_superuser %}
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Proveedores
-                    </a>
-                    <ul class="dropdown-menu ">
-                        <li><a class="dropdown-item" href="/registrar">Registrar Proveedor</a></li> 
-                        <li><a class="dropdown-item" href="/listarProveedor">Ver Proveedores</a></li> 
-                         {% comment %} <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/listarProducto">Ver Productos</a></li> {% endcomment %}
-                    </ul>
-                </li>
-                {% endif %} 
-            </ul>
-            <form class="d-flex" role="search">
-                <input id="buscar" class="form-control me-2 buscar" type="search" placeholder="Buscar" aria-label="Buscar">
-                <button id="boton" class="btn btn-outline-success me-2 bi bi-search" type="submit"> Buscar</button>
-                {% if user.is_authenticated %}
-                  <a id="boton" href="{% url 'logout' %}" class="btn btn-outline-primary bi bi-person-check-fill" type="submit"> Cerrar Sesión</a>
-                {% else %}
-                 <a id="boton" href="{% url 'login' %}" class="btn btn-outline-primary bi bi-person-circle" type="submit"> Iniciar Sesión</a>
-                {% endif %}
-              </form>
-            </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6 mt-1">
+            <img class="rounded-circle float-start mx-5" src="{% static 'img/logo.jpg' %}" alt="Logo" width="110" height="110">
+            <!-- <p class="float-start mt-5 mx-3">hola</p> -->
           </div>
+          <div class="col-sm-12 col-md-6 mb-1 " style="margin-top: 4.2rem;">
+            
+              <form class="input-group" role="search"  method="GET"> 
+                <input value="{{request.GET.buscador}}" id="buscar" name="buscador" class="form-control me-2 buscar" type="text" placeholder="Buscar productos" >
+                <button id="boton" class="btn btn-outline-secondary me-2 bi bi-search" type="submit"> Buscar</button>  
+               
+                <!-- Carrito -->  
+                <div class="carrito">
+                  <a class="btn btn-danger bi bi-cart4" data-bs-toggle="offcanvas" href="#offcanvasExample1" role="button" aria-controls="offcanvasExample">
+                  </a>            
+                  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample1" aria-labelledby="offcanvasExampleLabel" data-bs-scroll="true" data-bs-backdrop="false">
+                    <div class="offcanvas-header">
+                      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Carrito</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                      {% if request.session.carrito.items %}
+                      {% for key, value in request.session.carrito.items %}
+                      <div class="col-sm-9 col-md-9 text-center mx-auto">
+                        <div class="card mb-3 rounded-3 shadow-sm border-dark ">
+                          <div class="card-header py-2 bg-danger">
+                            <h4 class="my-0 fw-normal text-white "> {{value.nombre}} </h4>
+                          </div>
+                          <div class="card-body mx-auto">
+                            <img src=" {{ value.imagen }} " alt="" style="height: 7rem; width: 7rem;" class="img-thumbnail">
+                            <h3 class="card-title pricing-card-title"> {{value.precio}} <small class="text-muted fw-light">/cup</small>
+                            </h3>
+                            <h3 class="card-title pricing-card-title"> {{value.acumulado | floatformat:2}} <small class="text-muted fw-light">Subtotal</small>
+                            </h3>
+                            <div class="mx-4">
+                              <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-dark bg-opacity-75" >-</a>
+                              
+                              <span>{{value.cantidad}}</span>
+                              
+                              <a href="{% url 'agregar' value.producto_id %}" class="badge btn btn-dark dark-opacity-50">+</a>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                      <hr>
+                      <h5><b>Subtotal:</b> {{total | floatformat:2}}</h5>
+                        <div class="col-sm-6 mx-auto mt-3">
+                          <a href="{% url 'limpiar' %}" class="btn btn-warning">Limpiar</a>
+                          <a href= "{% url 'modal' %}" class="btn btn-success comprar">Comprar</a>
+                          
+                        </div>
+                      
+                      {% endif %}   
+                    </div>
+                  </div>            
+                         
+              </div>
+                </form>      
+            
+          </div>
+        </div>
+      </div>
+           <!-- Barra de navegación -->
+        <nav class="navbar bg-danger bg-opacity-75 navbar-dark p-0 ">  
+        
+            <div class="container-fluid navbar-expand-md">
+              <a class="navbar-brand" href="/" id="zorrillo">
+                <img class="rounded-circle" src="{% static 'img/icono-inicio.png' %}" alt="Inicio" width="35" height="35" title="Inicio">
+              </a>
+              <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon "></span>
+              </button>
+              <div class=" collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-lg-0 ">
+                  <!-- <li class="nav-item">
+                      <a class="nav-link" aria-current="page" href="/">Inicio</a>   
+                  </li> -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Productos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link " href="/contacto">Contactos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'faq' %}">Preguntas Frecuentes</a>
+                  </li>
+                </ul>            
+                                     
+                 <!-- Registo de usuario -->
+                <div class="dropdown float-end me-4" >
+                  <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle text-dark" data-bs-toggle="dropdown" aria-expanded="false" >
+                    <img src="{% static 'img/avatar-mono.png' %}" alt="Avatar" class="rounded-circle me-1" width="31" height="31">
+                    {% if user.is_authenticated %}
+                    <strong >{{ user.username }}</strong>
+                    {% endif %}
+                  </a>
+                  <ul class="dropdown-menu text-small shadow position-absolute end-0" style="margin-left: -4.90rem;">
+                    {% if user.is_authenticated == False %}
+                    <li ><a class="dropdown-item bi bi-person-circle" href="{% url 'login' %}"> Iniciar Sesión</a></li>
+                    {% else %}
+                    <!-- <li><a class="dropdown-item" href="#">Settings</a></li> -->
+                    <li><a class="dropdown-item bi bi-person-lines-fill" href="{% url 'perfil' %}"> Perfil</a></li> 
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item bi bi-person-check-fill" href="{% url 'logout' %}"> Cerrar Sesión</a></li>
+                    {% endif %} 
+                    
+                  </ul>
+                </div>
+              </div>   
+            </div>
+           
+                        <!-- Admin -->
+            {% if request.user.is_superuser %}
+            <div class="menu position-absolute top-48 start-50">
+              <a class="btn btn-primary bi bi-gear-wide-connected" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+              Registros</a>            
+              <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Registros</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                      Proveedores
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item" href="/registrar">Registrar</a></li>
+                      <li><a class="dropdown-item" href="/listarProveedor">Ver</a></li>
+                    </ul>
+                  </div>
+                  <div class="dropdown mt-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                      Productos
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item" href="{% url 'crear_producto' %}">Registrar</a></li>
+                      <li><a class="dropdown-item" href="{% url 'listar_producto' %}">Ver</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+             
+             </div>
+             {% endif %}  
+             
         </nav>
-        <div class="container py-4"></div>
-
+      
+        <!-- <div class="container py-0"></div> -->
+       
         
    {% block body %}
     
    {% endblock %}
-   <!-- <div class="container py-5"></div> -->
-   <!-- <br><br> -->
 
-   <footer class=" text-center text-white mt-5" style="background-color: #333;">
+   <footer class=" text-center text-dark mt-5 bg-danger bg-opacity-75" >
     <!-- Grid container -->
-    <div class="container p-3 pb-1 ">
+    <div class="container p-3 pb-0 ">
       <!-- Section: Social media -->
       <section class="mb-2">
         <!-- Facebook -->
@@ -83,11 +186,6 @@
         <!-- Twitter -->
         <a class="btn btn-outline-info btn-sm" href="https://twitter.com/?lang=es" role="button" target="_blank" style="border: none;">
           <img src="{% static 'img/twitter.svg' %}" alt="Twitter" width="20" title="Twitter">
-        </a>
-  
-        <!-- Google -->
-        <a class="btn btn-outline-success btn-sm" href="https://www.google.com/" role="button" target="_blank" style="border: none;">
-          <img src="{% static 'img/google.svg' %}" alt="Google" width="20" title="Google">
         </a>
   
         <!-- Instagram -->
@@ -109,13 +207,14 @@
     <!-- Grid container -->             
       <div class="text-center p-2">
         Copyright © 2023: 
-        <b class="text-white">Ruso</b>
+        <b class="text-dark">Ruso</b>
       </div>     
   </footer>
     
- {% block script%}
-   <script src="{% static 'js/bootstrap.min.js' %}"></script>
-   <script src="{% static 'js/proveedores.js' %}"></script> 
+ {% block script %}
+   <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> 
+   <script src="{% static 'js/proveedores.js' %}"></script>  
    <script src="{% static 'js/validacionProv.js' %}"></script> 
    <script src="{% static 'js/validacionProd.js' %}"></script>
    <script src="{% static 'js/sweetalert2.all.js' %}"></script> 
@@ -147,6 +246,35 @@
         {% endif %} 
       {% endfor %}
     {% endif %}
+    <script type="text/javascript">
+      (function () {
+
+        const comprar = document.querySelectorAll(".comprar");
+      
+          comprar.forEach(btn => {
+          btn.addEventListener('click',(e)=>{
+               
+          e.preventDefault();
+      
+            Swal.fire({
+              title: 'Pagar',
+              text: 'Modal with a custom image.',
+              imageUrl: '{% static 'img/qr.jpg' %}',
+              imageborder: 'none',  
+              imageWidth: 410,
+              imageHeight: 270,
+              imageAlt: 'Código QR ' 
+            })
+         
+      }); 
+      });
+      
+      })(); 
+    </script>
+    
   {% endblock %}
+  {% block extrajs %}
+  {% endblock %}
+  
 </body>
 </html>
