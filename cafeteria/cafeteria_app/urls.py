@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('',views.Principal, name="principal"),
     path('preguntas-frecuentes/', views.PregFrec, name="faq"), 
+    path('nosotros/', views.Nosotros, name='nosotros'),
     path('contacto/', views.contacto , name="contacto"), 
     path('registro/', views.registro, name='registro'), 
     path('perfil/', views.perfil_usuario, name='perfil'),    
@@ -26,7 +27,8 @@ urlpatterns = [
     path('restar/<int:producto_id>/', views.restar_producto, name='restar'),
     path('eliminar/<int:producto_id>/', views.eliminar_producto, name='eliminar'),
     path('limpiar/', views.limpiar_carrito, name='limpiar'),
-    path('pagar/', views.comprar, name="comprar"),  
+    path('pagar/', views.comprar, name="comprar"), 
+    #Buscador 
     path('producto/', views.buscar, name="buscar"),
     path('modal', views.imagen, name="modal")
     

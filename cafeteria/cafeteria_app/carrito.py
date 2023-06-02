@@ -51,18 +51,7 @@ class Carrito:
             if self.carrito[id]["cantidad"] <= 0:
                 self.eliminar(producto)
             self.guardar()
-        # for key,value in self.carrito.items():
-        #     if key == str(producto.id):
-        #             value["cantidad"] = value["cantidad"] - 1 
-        #             if value["cantidad"] < 1:
-        #                 self.eliminar(producto) 
-        #             else:
-        #                 value["acumulado"] = value["acumulado"] - str(producto.precio)  
-        #                 self.guardar()  
-        #             break
-        #     else:
-        #         print("No existe")
-
+      
 
     def limpiar(self):
         self.session["carrito"] = {}

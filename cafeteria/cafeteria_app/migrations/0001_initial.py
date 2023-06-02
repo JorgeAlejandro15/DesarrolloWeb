@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('nombre', models.CharField(max_length=100, verbose_name='Nombre del producto')),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Precio')),
                 ('cantidad_productos', models.PositiveIntegerField(verbose_name='Cantidad de productos')),
-                ('categoria', models.CharField(choices=[('1', 'Bebida'), ('2', 'Sandwich'), ('3', 'Pasta'), ('4', 'Carne'), ('5', 'Dulce'), ('6', 'Golosina')], default='1', max_length=10, verbose_name='Categoría')),
+                ('categoria', models.CharField(choices=[('bebida', 'Bebida'), ('sandwich', 'Sandwich'), ('pasta', 'Pasta'), ('carne', 'Carne'), ('dulce', 'Dulce'), ('golosina', 'Golosina')], default='1', max_length=10, verbose_name='Categoría')),
                 ('imagen', models.ImageField(null=True, upload_to='productos')),
                 ('proveedor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='productos', to='cafeteria_app.proveedor', verbose_name='Proveedor')),
             ],

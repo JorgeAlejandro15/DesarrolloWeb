@@ -2,32 +2,38 @@
 {% load static %} 
 
 {% block body %}  
-<div class="container py-3">
-    <h3>Productos</h3>
-    <div class="row row-cols-1 row-cols-md-4 mb-3 text-center mt-3"> 
-      {% for p in productos %}
+<div class="container mt-3">
+    <h3>Resultado de la búsqueda</h3>
+    <div class="row row-cols-2 row-cols-md-4 mb-1 text-center mt-3"> 
+      {% for p in entity %}
       <div class="col">
         <div class="card mb-3 rounded-3 shadow-sm border-dark">
           <div class="card-header py-2 bg-danger">
             <h4 class="my-0 fw-normal text-white "> {{p.nombre}} </h4>
           </div>
           <div class="card-body">
-            <img src=" {{ p.imagen.url }} " alt="" style="height: 9rem; width: 9rem;" class="img-thumbnail">
+            <div class="contenedor">
+              <img src=" {{ p.imagen.url }} " alt="" style="height: 9rem; width: 9rem;" class="img-thumbnail img">
+            </div>
             <h2 class="card-title pricing-card-title"> {{p.precio}} <small class="text-muted fw-light">/cup</small>
             </h2>
             <ul class="list-unstyled mt-3 mb-3">
               <li>Cantidad de productos: {{p.cantidad_productos}}</li>
             </ul>
-<!--                           
-            <a href="{% url 'restar' p.id %}" class="badge btn btn-dark" >-</a>
-            <span>{{value.cantidad}}</span> 
-            <a href="{% url 'agregar' p.id %}" class="badge btn btn-dark">+</a> -->
-
             <a class=" btn btn-md btn-outline-danger" href="{% url 'agregar' p.id %}">Agregar al carrito</a> 
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
+    {% if not entity %}
+      <h4>No se encontraron resultados</h4>
+    {% endif %}
   </div>
+
+  <div>
+    {% include './paginator.html' %}
+  </div>
+  <br><br>
+  
 {% endblock %}

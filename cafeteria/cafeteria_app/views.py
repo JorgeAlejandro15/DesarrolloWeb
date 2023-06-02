@@ -16,36 +16,50 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse
 from django.db.models import Q
+from django.core.paginator import Paginator
 import qrcode 
   
 # Create your views here.
 
-def Principal(request):
-    # busqueda = request.POST.get('buscador')
-    # print(request.GET) 
+def Principal(request): 
     productos = Producto.objects.all() 
-    # if busqueda:
-    #     productos = Producto.objects.filter(
-    #         Q(nombre__icontains = busqueda) |  
-    #         Q(categoria__icontains = busqueda)
-    #     ).distinct()
-    return render(request,"Principal.html", {'productos': productos})  
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(productos,8)
+        productos = paginator.page(page) 
+    except:
+        messages.error(request,'La página no existe')
+        return redirect('/') 
+    return render(request,"Principal.html", {'entity': productos, 'paginator':paginator})  
 
 
  #Función para buscar los productos
 def buscar(request):
     busqueda = request.GET.get('buscador') 
+     
     # productos = Producto.objects.all()
     if busqueda:
-        productos = Producto.objects.filter(
+        producto = Producto.objects.filter(
             Q(nombre__icontains = busqueda) |
             Q(categoria__icontains = busqueda) 
         ).distinct()
-    return render(request, "prueba.html", {'productos':productos})  
+
+    page = request.GET.get('page',1)
+    try:
+        paginator = Paginator(producto,8)
+        producto = paginator.page(page) 
+    except:
+        messages.error(request,'La página no existe')
+        return redirect('/')
+    return render(request, "prueba.html", {'entity':producto, 'paginator':paginator})  
 
 
 def PregFrec(request):
     return render(request, "faq.html") 
+
+def Nosotros(request):
+    return render(request, "nosotros.html") 
 
 #Registro del Usuario
 def registro(request):
@@ -67,6 +81,7 @@ def registro(request):
         data['form'] = formulario 
     return render(request, 'registration/registro.html' , data)  
 
+
  #Editar Perfil de Usuario
 @login_required
 def perfil_usuario(request):
@@ -81,6 +96,7 @@ def perfil_usuario(request):
     else:
         form = Perfil_Usuario_Form(instance=perfil)  
     return render(request, 'registration/profile.html', {'form':form})          
+
 
    #Envío del Correo  
 def contacto(request): 
@@ -194,6 +210,8 @@ class CrearProducto(PermissionRequiredMixin, CreateView):
     template_name = 'producto/producto.html'
     form_class = Producto_Form 
     permission_required = ('cafeteria.add_CrearProducto')
+    def producto(self, request, *args, **kwargs):
+        messages.success(request,'El producto se ha guardado')    
     success_url = reverse_lazy('listar_producto')
 
 @permission_required('cafeteria.delete_eliminarProducto')
@@ -217,18 +235,22 @@ def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id = producto_id)
     carrito.agregar(producto)
+    alert = "Mensaje"
+    messages.success(request,'El producto '+ producto.nombre +' se ha agregado al carrito') 
     return redirect('/')
 
 def eliminar_producto(request, id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id = id)
     carrito.eliminar(producto)
+    messages.success(request,'El producto '+ producto.nombre +' ha sido eliminado del carrito') 
     return redirect('/') 
 
 def restar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id = producto_id)
     carrito.restar(producto)
+    messages.success(request,'El producto '+ producto.nombre +' ha sido actualizado') 
     return redirect('/') 
 
 def limpiar_carrito(request):
@@ -247,9 +269,9 @@ def comprar(request):
     # Devuelve la imagen como respuesta HTTP
     response = HttpResponse(content_type="image/png")
     img.save(response, "PNG") 
-    return response
+    return response 
 
-
+@login_required
 def imagen(request):  
     image = 'cafeteria\static\img\qr.jpg'
-    return render(request, 'Principal.html', {'image':image}) 
+    return render(request, 'Principal.html', {'image':image})   

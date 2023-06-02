@@ -6,8 +6,8 @@
 <div class="container py-3">  
     <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-8 text-center mx-auto" >
-            <!-- <h3>Listado de Productos</h3>
-            {% for pr in productos %}
+             <h3>Listado de Productos</h3>
+            <!--{% for pr in productos %}
             {% if forloop.first %}
             <h4>Proveedor: <b>{{pr.proveedor.nombre}}</b> </h4> 
             {% endif %}
@@ -52,3 +52,30 @@
     <br><br>
    
 {% endblock %}  
+
+{% block extrajs %}
+        {% if messages %}
+        {% for m in messages %}
+        {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+        <script>
+            Swal.fire({
+            "icon": 'success', 
+            "background": '#e1e6d3',  
+            "title": 'Felicitaciones', 
+            "text": '{{m}}'          
+        })
+        </script> 
+        {% endif %}  
+        {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+        <script>
+            Swal.fire({
+            "icon": 'error', 
+            "background": '#e1e6d3',  
+            "title": 'Error', 
+            "text": '{{m}}'          
+        })
+        </script> 
+        {% endif %} 
+        {% endfor %}
+        {% endif %}
+{% endblock %}

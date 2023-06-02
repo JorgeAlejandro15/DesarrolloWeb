@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>El Zorrillo</title>
+    <title>La Madriguera del Zorro</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,15 +16,17 @@
  
 </head>
 <body>
-      <div class="container-fluid">
+      <div id="top" class="container-fluid">
         <div class="row">
           <div class="col-sm-12 col-md-6 mt-1">
-            <img class="rounded-circle float-start mx-5" src="{% static 'img/logo.jpg' %}" alt="Logo" width="110" height="110">
+            <a href="/"> 
+              <img class="rounded-circle float-start mx-5" src="{% static 'img/logo.jpg' %}" alt="Logo" width="100" height="100">
+            </a> 
             <!-- <p class="float-start mt-5 mx-3">hola</p> -->
           </div>
-          <div class="col-sm-12 col-md-6 mb-1 " style="margin-top: 4.2rem;">
+          <div class="col-sm-12 col-md-6 mb-1" style="margin-top: 3.9rem;">
             
-              <form class="input-group" role="search"  method="GET"> 
+              <form class="input-group" role="search"  method="GET" action="/producto/"> 
                 <input value="{{request.GET.buscador}}" id="buscar" name="buscador" class="form-control me-2 buscar" type="text" placeholder="Buscar productos" >
                 <button id="boton" class="btn btn-outline-secondary me-2 bi bi-search" type="submit"> Buscar</button>  
                
@@ -52,11 +54,11 @@
                             <h3 class="card-title pricing-card-title"> {{value.acumulado | floatformat:2}} <small class="text-muted fw-light">Subtotal</small>
                             </h3>
                             <div class="mx-4">
-                              <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-dark bg-opacity-75" >-</a>
+                              <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-dark" >-</a>
                               
                               <span>{{value.cantidad}}</span>
                               
-                              <a href="{% url 'agregar' value.producto_id %}" class="badge btn btn-dark dark-opacity-50">+</a>
+                              <a href="{% url 'agregar' value.producto_id %}" class="badge btn btn-dark">+</a>
                             </div>
                             
                           </div>
@@ -64,40 +66,39 @@
                       </div>
                       {% endfor %}
                       <hr>
-                      <h5><b>Subtotal:</b> {{total | floatformat:2}}</h5>
+                      <h5><b>Total:</b> {{total | floatformat:2}}</h5>
                         <div class="col-sm-6 mx-auto mt-3">
                           <a href="{% url 'limpiar' %}" class="btn btn-warning">Limpiar</a>
-                          <a href= "{% url 'modal' %}" class="btn btn-success comprar">Comprar</a>
-                          
+                          <a href= "{% url 'modal' %}" class="btn btn-success comprar">Comprar</a>          
                         </div>
                       
                       {% endif %}   
                     </div>
                   </div>            
                          
-              </div>
-                </form>      
+                </div>
+              </form>     
             
           </div>
         </div>
       </div>
            <!-- Barra de navegación -->
-        <nav class="navbar bg-danger bg-opacity-75 navbar-dark p-0 ">  
+        <nav class="navbar bg-danger bg-opacity-75 navbar-dark p-1 ">  
         
             <div class="container-fluid navbar-expand-md">
-              <a class="navbar-brand" href="/" id="zorrillo">
-                <img class="rounded-circle" src="{% static 'img/icono-inicio.png' %}" alt="Inicio" width="35" height="35" title="Inicio">
+              <a class="navbar-brand mb-lg-1" href="/" id="zorrillo">
+                Inicio 
               </a>
               <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon "></span>
               </button>
               <div class=" collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-lg-0 ">
-                  <!-- <li class="nav-item">
-                      <a class="nav-link" aria-current="page" href="/">Inicio</a>   
-                  </li> -->
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Productos</a>
+                      <a class="nav-link" aria-current="page" href="{% url 'nosotros' %}">Nosotros</a>   
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/#productos">Productos</a> 
                   </li>
                   <li class="nav-item">
                     <a class="nav-link " href="/contacto">Contactos</a>
@@ -117,7 +118,8 @@
                   </a>
                   <ul class="dropdown-menu text-small shadow position-absolute end-0" style="margin-left: -4.90rem;">
                     {% if user.is_authenticated == False %}
-                    <li ><a class="dropdown-item bi bi-person-circle" href="{% url 'login' %}"> Iniciar Sesión</a></li>
+                    <li ><a class="dropdown-item bi bi-person-circle" href="{% url 'login' %} "> Iniciar Sesión</a></li>
+                    
                     {% else %}
                     <!-- <li><a class="dropdown-item" href="#">Settings</a></li> -->
                     <li><a class="dropdown-item bi bi-person-lines-fill" href="{% url 'perfil' %}"> Perfil</a></li> 
@@ -133,7 +135,7 @@
                         <!-- Admin -->
             {% if request.user.is_superuser %}
             <div class="menu position-absolute top-48 start-50">
-              <a class="btn btn-primary bi bi-gear-wide-connected" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+              <a class="btn btn-outline-dark bi bi-gear-wide-connected" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
               Registros</a>            
               <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
@@ -180,39 +182,43 @@
       <!-- Section: Social media -->
       <section class="mb-2">
         <!-- Facebook -->
-        <a class="btn btn-outline-primary btn-sm" href="https://www.facebook.com/" target="_blank" role="button" style="border: none;">
+        <a class="btn btn-outline-primary btn-sm" href="https://www.facebook.com/universidad.uci" target="_blank" role="button" style="border: none;">
           <img src="{% static 'img/facebook.svg' %}" alt="Facebook" width="20" title="Facebook"> 
         </a>
         <!-- Twitter -->
-        <a class="btn btn-outline-info btn-sm" href="https://twitter.com/?lang=es" role="button" target="_blank" style="border: none;">
+        {% comment %} <a class="btn btn-outline-info btn-sm" href="https://twitter.com/?lang=es" role="button" target="_blank" style="border: none;">
           <img src="{% static 'img/twitter.svg' %}" alt="Twitter" width="20" title="Twitter">
-        </a>
+        </a> {% endcomment %}
   
         <!-- Instagram -->
-        <a class="btn btn-outline-danger btn-sm" href="https://www.instagram.com/" role="button" role="button" target="_blank" style="border: none;">
+        <a class="btn btn-outline-light btn-sm" href="https://www.instagram.com/invites/contact/?i=1i4m8kbbds1bt&utm_content=raz2p57" role="button" role="button" target="_blank" style="border: none;">
           <img src="{% static 'img/instagram.svg' %}" alt="Instagram" width="20" title="Instagram">
         </a>
   
-        <!-- Linkedin -->
-        <a class="btn btn-outline-primary btn-sm" href="https://es.linkedin.com/" role="button" target="_blank" style="border: none;">
-          <img src="{% static 'img/linkedin.svg' %}" alt="Linkedin" width="20" title="Linkedin">  
+        <!-- WhatsApp -->
+        <a class="btn btn-outline-success btn-sm" href="https://chat.whatsapp.com/LUB5WtoBCr4Dyk1CjjyfNG" role="button" target="_blank" style="border: none;">
+          <img src="{% static 'img/whatsapp.svg' %}" alt="WhatsApp" width="20" title="WhatsApp">  
         </a>
   
         <!-- Github -->
-        <a class="btn btn-outline-light btn-sm" href="https://github.com/" role="button" target="_blank" style="border: none;">
+        {% comment %} <a class="btn btn-outline-light btn-sm" href="https://github.com/" role="button" target="_blank" style="border: none;">
           <img src="{% static 'img/github.svg' %}" alt="Github" width="20" title="Github">
-        </a> 
+        </a>  {% endcomment %}
       </section>           
     </div>
     <!-- Grid container -->             
       <div class="text-center p-2">
-        Copyright © 2023: 
-        <b class="text-dark">Ruso</b>
+        Diseñado y desarollado por <b class="text-dark">TeamMaster</b> © 2023 <b class="text-dark">La Madriguera del Zorro.</b>    
       </div>     
   </footer>
-    
+  
+  <a class="back-to-top in" title="Ir a arriba" href="#top"></a>
+   <i class="back-to-top-icon glyphicon glyphicon-arrow-up in bi bi-arrow-up">        
+     {% comment %} <img src="bootstrap-icons-1.10.3/arrow-up.svg" alt="flecha" style="width: 21px;"> {% endcomment %}
+   </i>
+
  {% block script %}
-   <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+   {% comment %} <script src="{% static 'js/bootstrap.min.js' %}"></script>  {% endcomment %}
    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script> 
    <script src="{% static 'js/proveedores.js' %}"></script>  
    <script src="{% static 'js/validacionProv.js' %}"></script> 
@@ -222,30 +228,9 @@
    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>       
    <script src="{% static 'js/dataTables.bootstrap5.min.js' %}"></script> 
    <script src="{% static 'js/proveedores.js' %}">$('#datatable').DataTable()</script>         
-    {% if messages %}
-      {% for m in messages %}
-        {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-        <script>
-          Swal.fire({
-            "icon": 'success', 
-            "background": '#e1e6d3',  
-            "title": 'Felicitaciones', 
-            "text": '{{m}}'          
-        })
-        </script> 
-        {% endif %}  
-        {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-        <script>
-          Swal.fire({
-            "icon": 'error', 
-            "background": '#e1e6d3',  
-            "title": 'Error', 
-            "text": '{{m}}'          
-        })
-        </script> 
-        {% endif %} 
-      {% endfor %}
-    {% endif %}
+    
+
+         {% comment %} Mensaje con el QR {% endcomment %}
     <script type="text/javascript">
       (function () {
 
@@ -257,21 +242,39 @@
           e.preventDefault();
       
             Swal.fire({
-              title: 'Pagar',
-              text: 'Modal with a custom image.',
+              title: 'Pagar con Transfermóvil',
+              text: 'Vuelva pronto.',
+              background: '#e1e6d3',
               imageUrl: '{% static 'img/qr.jpg' %}',
               imageborder: 'none',  
-              imageWidth: 410,
-              imageHeight: 270,
+              imageWidth: 350,
+              imageHeight: 250,
               imageAlt: 'Código QR ' 
-            })
-         
+            })    
       }); 
-      });
-      
+      });    
       })(); 
     </script>
     
+    <script type="text/javascript">
+      // selecciona el enlace que lleva al principio de la página
+      const backToTopLink = document.querySelector('.back-to-top');
+      const flecha = document.querySelector('.back-to-top-icon');
+
+      // agrega un evento de scroll al documento
+      window.addEventListener('scroll', () => {
+        // si la posición vertical de la página es mayor a 160 px
+        if (window.pageYOffset > 160) {
+          // muestra el enlace
+          backToTopLink.style.display = 'block';
+          flecha.style.display = 'block';
+        } else {
+          // oculta el enlace
+          backToTopLink.style.display = 'none';
+          flecha.style.display = 'none';
+        }
+      });
+    </script>
   {% endblock %}
   {% block extrajs %}
   {% endblock %}

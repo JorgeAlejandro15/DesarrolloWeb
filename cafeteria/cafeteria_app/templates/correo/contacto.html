@@ -2,7 +2,7 @@
  {% load static %} 
 
  {% block body %}
-    <div class="container py-5 ">
+    <div class="container py-4 ">
         <div class="row mx-auto">
           <div class="col-12 ">
             <h3>Contacto de la cafetería:</h3>    
@@ -26,18 +26,18 @@
               </div>
               
               
-              <div class="col-md-4 me-1">
+              <div class="col-md-4 me-1 mt-1">
                 <label for="inputEmail4" class="form-label">Email*</label>
                 <input type="email" class="form-control" id="inputEmail4" name="correo" required>
               </div>
 
-              <div class="col-md-4 ">
+              <div class="col-md-4 mt-1">
                 <label for="inputAsunto" class="form-label">Asunto*</label>
                 <input type="text" class="form-control" id="inputAsunto" name="asunto" required>
               </div>
                 
                
-                <div class="col-md-8">
+                <div class="col-md-8 mt-1">
                   <label for="textarea" class="form-label">Descripción*</label>
                   <textarea name="descripcion"  id="textarea"  rows="4" class="form-control" style="max-height:200px;" required></textarea>
                 </div> 
@@ -56,6 +56,33 @@
               </form>
         </div>
     </div>
-    <br>
-
+    <br><br>
+    
  {% endblock %}
+
+ {% block extrajs %}
+    {% if messages %}
+    {% for m in messages %}
+    {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <script>
+        Swal.fire({
+        "icon": 'success', 
+        "background": '#e1e6d3',  
+        "title": 'Felicitaciones', 
+        "text": '{{m}}'          
+    })
+    </script> 
+    {% endif %}  
+    {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <script>
+        Swal.fire({
+        "icon": 'error', 
+        "background": '#e1e6d3',  
+        "title": 'Error', 
+        "text": '{{m}}'          
+    })
+    </script> 
+    {% endif %} 
+    {% endfor %}
+    {% endif %}
+ {% endblock  %}

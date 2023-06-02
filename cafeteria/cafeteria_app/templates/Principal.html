@@ -3,54 +3,55 @@
 
 {% block body %}  
 
-           <div id="carrusel" class="carousel slide carousel-fade " data-bs-ride="carousel">
-              <div class="carousel-indicators" >
-                  <button type="button" data-bs-target="#carrusel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carrusel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carrusel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                          
-                    <div class="carousel-inner">         
-                      <div class="carousel-item active d-item">
-                        <img src="{% static 'img/food.jpg' %}" class="d-block imagen w-100" alt="food"> 
-                        <div class="carousel-caption  d-md-block">
-                          <h3>Etiqueta de la primera diapositiva</h3>
-                          <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
-                          <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
-                        </div>                         
-                      </div>
-                        <div class="carousel-item d-item">
-                          <img src="{% static 'img/pan1.jpg' %}" class="d-block w-100 imagen" alt="pan"> 
+            
+              <div id="carrusel" class="carousel slide carousel-fade " data-bs-ride="carousel">
+                <div class="carousel-indicators" >
+                    <button type="button" data-bs-target="#carrusel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carrusel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carrusel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  </div>
+                            
+                      <div class="carousel-inner">         
+                        <div class="carousel-item active d-item">
+                          <img src="{% static 'img/food.jpg' %}" class="d-block imagen w-100" alt="food"> 
                           <div class="carousel-caption  d-md-block">
                             <h3>Etiqueta de la primera diapositiva</h3>
                             <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
                             <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                          </div>                         
+                        </div>
+                          <div class="carousel-item d-item">
+                              <img src="{% static 'img/pan1.jpg' %}" class="d-block w-100 imagen" alt="pan"> 
+                            <div class="carousel-caption  d-md-block">
+                              <h3>Etiqueta de la primera diapositiva</h3>
+                              <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
+                              <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                            </div>
+                          </div>
+                          <div class="carousel-item d-item">
+                            <img src="{% static 'img/pastel.jpg' %}" class="d-block w-100 imagen" alt="nota">
+                            <div class="carousel-caption  d-md-block">
+                              <h3>Etiqueta de la primera diapositiva</h3>
+                              <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
+                              <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
+                            </div> 
                           </div>
                         </div>
-                        <div class="carousel-item d-item">
-                          <img src="{% static 'img/pastel.jpg' %}" class="d-block w-100 imagen" alt="nota">
-                          <div class="carousel-caption  d-md-block">
-                            <h3>Etiqueta de la primera diapositiva</h3>
-                            <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
-                            <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
-                          </div> 
-                        </div>
-                      </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">                         
-                        <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
-                        <span class="visually-hidden">Anterior</span>
-                      </button>
-                       <button class="carousel-control-next" type="button" data-bs-target="#carrusel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
-                        <span class="visually-hidden">Siguiente</span>
-                      </button>
-                </div>
-                
-                
-                <div class="container py-3">
-                  <h2>Productos</h2>
-                  <div class="row row-cols-2 row-cols-md-4 mb-3 text-center mt-3"> 
-                    {% for p in productos %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">                         
+                          <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                          <span class="visually-hidden">Anterior</span>
+                        </button>
+                         <button class="carousel-control-next" type="button" data-bs-target="#carrusel" data-bs-slide="next">
+                          <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+                          <span class="visually-hidden">Siguiente</span>
+                        </button>
+              </div>
+            
+                              
+                <div class="container mt-4">
+                  <h2 id="productos">Nuestros Productos</h2>
+                  <div class="row row-cols-2 row-cols-md-4 mb-1 text-center mt-3"> 
+                    {% for p in entity %}
                     <div class="col">
                       <div class="card mb-3 rounded-3 shadow-sm border-dark">
                         <div class="card-header py-2 bg-danger">
@@ -58,7 +59,7 @@
                         </div>
                         <div class="card-body">
                           <div class="contenedor">
-                            <img src=" {{ p.imagen.url }} " alt="" style="height: 8rem; width: 8rem;" class="img-thumbnail img">
+                            <img src="{{ p.imagen.url }}" alt="" style="height: 8rem; width: 8rem;" class="img-thumbnail img">
                           </div>
                           <h2 class="card-title pricing-card-title"> {{p.precio}} <small class="text-muted fw-light">/cup</small>
                           </h2>
@@ -78,9 +79,38 @@
                     {% endfor %}
                   </div>
                 </div>
+
+                <div>
+                  {% include './paginator.html' %}
+                </div>
                
-          <br>
+                {% if messages %}
+                {% for m in messages %}
+                <div class="container position-relative" id="alerta">
+                  <div class="col-sm-4 col-md-4 col-lg-4 position-fixed bottom-0 end-0">
+                    <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" id="myAlert">
+                      <i class="bi bi-check-circle-fill me-2"></i>
+                        {{ m }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  </div>
+
+                </div>
+                  {% endfor %}
+                {% endif %}
+                <br><br>
            {% endblock %} 
+
            {% block extrajs %}
-            
-           {% endblock %}
+                <script type="text/javascript">
+                  $(document).ready(function() {
+                    // Mostrar la alerta
+                    $("#alerta").fadeIn();
+                    
+                    // Ocultar la alerta después de 5 segundos
+                    setTimeout(function() {
+                      $("#alerta").fadeOut();  
+                    }, 6000); //  6 segundos
+                  });               //fadeOut()
+                </script>
+           {% endblock %} 

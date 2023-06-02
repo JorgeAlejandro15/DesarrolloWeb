@@ -18,13 +18,14 @@ class Producto(models.Model):
     precio = models.FloatField(verbose_name='Precio')  
     cantidad_productos = models.PositiveIntegerField(verbose_name='Cantidad de productos') 
     categoria = models.CharField(verbose_name='Categoría', max_length=10, choices=( 
-        ('1', 'Bebida'),
-        ('2', 'Sandwich'),
-        ('3', 'Pasta'),
-        ('4', 'Carne'),
-        ('5', 'Dulce'),
-        ('6', 'Golosina')
-    ), default='1')
+        ('bebida', 'Bebida'),
+        ('sandwich', 'Sandwich'),
+        ('pasta', 'Pasta'),
+        ('carne', 'Carne'),
+        ('dulce', 'Dulce'),
+        ('golosina', 'Golosina'),
+        ('aseo', 'Aseo')
+    ), default='bebida')
     imagen = models.ImageField(upload_to="productos", null=True) 
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name='productos',verbose_name='Proveedor')
 
