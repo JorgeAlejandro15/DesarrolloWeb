@@ -3,7 +3,7 @@
 
 {% block body %}  
 <div class="container mt-3">
-    <h3>Resultado de la búsqueda</h3>
+    <h3 id="resultado">Resultado de la búsqueda</h3> 
     <div class="row row-cols-2 row-cols-md-4 mb-1 text-center mt-3"> 
       {% for p in entity %}
       <div class="col">
@@ -32,8 +32,41 @@
   </div>
 
   <div>
-    {% include './paginator.html' %}
+    {% include './paginatorB.html' %}  
   </div>
+
+  {% if messages %}
+  {% for m in messages %}
+    {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+      <div class="container position-relative" id="alerta">
+       <div class="col-sm-4 col-md-4 col-lg-4 position-fixed bottom-0 end-0">
+          <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" id="myAlert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+              {{ m }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+
   <br><br>
-  
 {% endblock %}
+
+{% block extrajs %}
+    {% if messages %}
+    {% for m in messages %}
+    {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <script>
+        Swal.fire({
+        "icon": 'error', 
+        "background": '#e1e6d3',  
+        "title": 'Error', 
+        "text": '{{m}}'          
+      })
+    </script> 
+    {% endif %} 
+    {% endfor %}
+    {% endif %}
+{% endblock  %}

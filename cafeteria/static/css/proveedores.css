@@ -3,6 +3,11 @@ th , td{
     vertical-align: middle !important; 
 }
 
+@media only screen and (min-width:768px){
+    #div_form{
+        margin-top: 4.3rem;
+    }
+}
 
 .bi-cart4:hover {
     -webkit-transform: rotateY(180deg);
@@ -56,7 +61,7 @@ th , td{
 }
 
 .imagen:hover{
-   filter: saturate(80%);  
+   filter: saturate(100%);  
 }
 
 /* .contenedor{
@@ -71,7 +76,7 @@ th , td{
 .imagen{
   height: 100%;
   /* object-fit: cover;  aumenta el zoom de la imagen */
-  filter: brightness(0.6); 
+  filter: brightness(0.8); 
 }
 
 .bi-trash{
@@ -129,9 +134,9 @@ footer{
 .back-to-top-icon {
     position: fixed;
     top: inherit;
-    bottom: 9px;
-    right: 11px;
-    font-size: 16px;
+    bottom: 7px;
+    right: 9px;
+    font-size: 20px;
     z-index: 999;
     pointer-events: none;
 }

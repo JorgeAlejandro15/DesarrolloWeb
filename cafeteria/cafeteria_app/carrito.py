@@ -7,7 +7,7 @@ class Carrito:
             carrito = self.session["carrito"] = {}
             self.carrito = self.session["carrito"]
         else:
-            self.carrito = carrito
+            self.carrito = carrito 
     
     def agregar(self, producto):
         id = str(producto.id)
@@ -21,11 +21,6 @@ class Carrito:
                 'imagen': producto.imagen.url,
             }
         else:
-            # for key , value in self.carrito.items():
-                # if key == str(producto.id):
-                #     value["cantidad"] = value["cantidad"] + 1
-                #     value["acumulado"] = value["acumulado"] + str(producto.precio)   
-                #     break
             self.carrito[id]["cantidad"] += 1
             self.carrito[id]["acumulado"] += producto.precio 
         self.guardar() 

@@ -14,27 +14,27 @@
                       <div class="carousel-inner">         
                         <div class="carousel-item active d-item">
                           <img src="{% static 'img/food.jpg' %}" class="d-block imagen w-100" alt="food"> 
-                          <div class="carousel-caption  d-md-block">
+                          <!-- <div class="carousel-caption  d-md-block">
                             <h3>Etiqueta de la primera diapositiva</h3>
                             <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
                             <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
-                          </div>                         
+                          </div>                          -->
                         </div>
                           <div class="carousel-item d-item">
                               <img src="{% static 'img/pan1.jpg' %}" class="d-block w-100 imagen" alt="pan"> 
-                            <div class="carousel-caption  d-md-block">
+                            <!-- <div class="carousel-caption  d-md-block">
                               <h3>Etiqueta de la primera diapositiva</h3>
                               <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
                               <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
-                            </div>
+                            </div> -->
                           </div>
                           <div class="carousel-item d-item">
                             <img src="{% static 'img/pastel.jpg' %}" class="d-block w-100 imagen" alt="nota">
-                            <div class="carousel-caption  d-md-block">
+                            <!-- <div class="carousel-caption  d-md-block">
                               <h3>Etiqueta de la primera diapositiva</h3>
                               <p style="font-size: 23px; ">Algún contenido placeholder representativo para la primera diapositiva.</p>
                               <p><a class="btn btn-md btn-outline-light" href="#">Leer más</a></p>
-                            </div> 
+                            </div>  -->
                           </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">                         
@@ -80,12 +80,13 @@
                   </div>
                 </div>
 
-                <div>
+                <div class="mb-0">
                   {% include './paginator.html' %}
                 </div>
                
                 {% if messages %}
                 {% for m in messages %}
+                {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
                 <div class="container position-relative" id="alerta">
                   <div class="col-sm-4 col-md-4 col-lg-4 position-fixed bottom-0 end-0">
                     <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" id="myAlert">
@@ -94,9 +95,9 @@
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                   </div>
-
                 </div>
-                  {% endfor %}
+                {% endif %}
+                {% endfor %}
                 {% endif %}
                 <br><br>
            {% endblock %} 
@@ -113,4 +114,19 @@
                     }, 6000); //  6 segundos
                   });               //fadeOut()
                 </script>
+
+                {% if messages %}
+                {% for m in messages %}
+                {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <script>
+                    Swal.fire({
+                    "icon": 'error', 
+                    "background": '#e1e6d3',  
+                    "title": 'Error', 
+                    "text": '{{m}}'          
+                  })
+                </script> 
+                {% endif %} 
+                {% endfor %}
+                {% endif %}
            {% endblock %} 

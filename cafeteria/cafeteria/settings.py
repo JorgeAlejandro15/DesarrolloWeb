@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-slgv^)(4y6$*!cd$0602i-&l8ti5#*%ml-zfwqa)hj4m_w&1yv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.137.1','127.0.0.1','192.168.42.90']  
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"   # Habilita los mensajes entre las urls
 
@@ -146,12 +146,15 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'george111333555@gmail.com'
-EMAIL_HOST_PASSWORD = 'rbourgskkfxawovv' 
-
+EMAIL_HOST_PASSWORD = ''  
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")  
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  #Para borrar la sesión al cerrar el navegador
+SESSION_COOKIE_AGE = 60  # Tiempo de expiración de la sesión en segundos
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -18,16 +18,18 @@
 <body>
       <div id="top" class="container-fluid">
         <div class="row">
-          <div class="col-sm-12 col-md-6 mt-1">
+          <div class="col-sm-12 col-md-6 mt-1 mb-2">
             <a href="/"> 
               <img class="rounded-circle float-start mx-5" src="{% static 'img/logo.jpg' %}" alt="Logo" width="100" height="100">
             </a> 
             <!-- <p class="float-start mt-5 mx-3">hola</p> -->
           </div>
-          <div class="col-sm-12 col-md-6 mb-1" style="margin-top: 3.9rem;">
+          <div id="div_form" class="col-sm-12 col-md-6 mb-1" >
             
-              <form class="input-group" role="search"  method="GET" action="/producto/"> 
-                <input value="{{request.GET.buscador}}" id="buscar" name="buscador" class="form-control me-2 buscar" type="text" placeholder="Buscar productos" >
+              <form class="input-group" role="search"  method="POST" action="/search/"> {% csrf_token %}
+                
+                <input value="{{request.buscador}}" id="buscar" name="buscador" class="form-control me-2 buscar" type="text" placeholder="Buscar productos" >
+                
                 <button id="boton" class="btn btn-outline-secondary me-2 bi bi-search" type="submit"> Buscar</button>  
                
                 <!-- Carrito -->  
@@ -69,7 +71,7 @@
                       <h5><b>Total:</b> {{total | floatformat:2}}</h5>
                         <div class="col-sm-6 mx-auto mt-3">
                           <a href="{% url 'limpiar' %}" class="btn btn-warning">Limpiar</a>
-                          <a href= "{% url 'modal' %}" class="btn btn-success comprar">Comprar</a>          
+                          <a href= "{% url 'limpiar' %}" class="btn btn-success comprar">Comprar</a>          
                         </div>
                       
                       {% endif %}   
@@ -82,6 +84,7 @@
           </div>
         </div>
       </div>
+
            <!-- Barra de navegación -->
         <nav class="navbar bg-danger bg-opacity-75 navbar-dark p-1 ">  
         
@@ -111,7 +114,7 @@
                  <!-- Registo de usuario -->
                 <div class="dropdown float-end me-4" >
                   <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle text-dark" data-bs-toggle="dropdown" aria-expanded="false" >
-                    <img src="{% static 'img/avatar-mono.png' %}" alt="Avatar" class="rounded-circle me-1" width="31" height="31">
+                    <img src="{% static 'img/avatar-mono.png' %}" alt="Avatar" class="rounded-circle me-1" width="33" height="33">
                     {% if user.is_authenticated %}
                     <strong >{{ user.username }}</strong>
                     {% endif %}
@@ -165,8 +168,7 @@
               </div>
              
              </div>
-             {% endif %}  
-             
+             {% endif %}       
         </nav>
       
         <!-- <div class="container py-0"></div> -->
@@ -234,12 +236,12 @@
     <script type="text/javascript">
       (function () {
 
-        const comprar = document.querySelectorAll(".comprar");
+        const comprar = document.querySelectorAll(".comprar"); 
       
           comprar.forEach(btn => {
           btn.addEventListener('click',(e)=>{
                
-          e.preventDefault();
+          e.preventDefault(); 
       
             Swal.fire({
               title: 'Pagar con Transfermóvil',
@@ -263,8 +265,8 @@
 
       // agrega un evento de scroll al documento
       window.addEventListener('scroll', () => {
-        // si la posición vertical de la página es mayor a 160 px
-        if (window.pageYOffset > 160) {
+        // si la posición vertical de la página es mayor a 210 px
+        if (window.pageYOffset > 210) {
           // muestra el enlace
           backToTopLink.style.display = 'block';
           flecha.style.display = 'block';

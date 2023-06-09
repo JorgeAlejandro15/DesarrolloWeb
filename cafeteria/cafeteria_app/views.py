@@ -35,24 +35,36 @@ def Principal(request):
 
 
  #Función para buscar los productos
-def buscar(request):
-    busqueda = request.GET.get('buscador') 
-     
-    # productos = Producto.objects.all()
-    if busqueda:
-        producto = Producto.objects.filter(
-            Q(nombre__icontains = busqueda) |
-            Q(categoria__icontains = busqueda) 
-        ).distinct()
+def search(request):
+    query = request.POST.get('buscador')
+    # Almacena la consulta de búsqueda en la sesión de Django
+    request.session['buscador'] = query
+    # Redirige a la página de resultados de búsqueda
+    return redirect('buscar') 
 
+
+def buscar(request):
+    # Obtiene la consulta de búsqueda de la sesión de Django
+    query = request.session.get('buscador')
+    results = Producto.objects.all() 
+    # Realiza la búsqueda y obtiene los resultados
+    if query:
+        results = Producto.objects.filter(
+            Q(nombre__icontains = query) |
+            Q(categoria__icontains = query)
+        ).distinct() 
+    
     page = request.GET.get('page',1)
+    # Usa la clase Paginator de Django para generar la paginación
     try:
-        paginator = Paginator(producto,8)
-        producto = paginator.page(page) 
+        paginator = Paginator(results, 8) # 8 resultados por página
+        results = paginator.page(page) 
     except:
-        messages.error(request,'La página no existe')
-        return redirect('/')
-    return render(request, "prueba.html", {'entity':producto, 'paginator':paginator})  
+        messages.error(request, 'La página no existe')
+        return redirect('buscar') 
+        
+    return render(request, 'prueba.html', {'paginator': paginator, 'entity':results})
+
 
 
 def PregFrec(request):
@@ -60,6 +72,7 @@ def PregFrec(request):
 
 def Nosotros(request):
     return render(request, "nosotros.html") 
+
 
 #Registro del Usuario
 def registro(request):
@@ -90,7 +103,7 @@ def perfil_usuario(request):
     if request.method == 'POST':
         form = Perfil_Usuario_Form(request.POST, instance=perfil) 
         if form.is_valid():
-            perfil.save()
+            perfil.save() 
             messages.success(request, "Su perfil se ha actualizado")
             return redirect('perfil')
     else:
@@ -123,6 +136,7 @@ def contacto(request):
     return render(request, 'correo/contacto.html')
 
 
+    #Proveedor    
 class ProveedorClass(ListView): 
     Model = Proveedor
     template_name = 'proveedor/proveedores.html' 
@@ -197,21 +211,18 @@ class ProveedorClass(ListView):
 
 
 
-
     #Productos
 class ListarProducto(PermissionRequiredMixin, ListView):
     Model = Producto
     template_name = 'producto/listarProducto.html'
     permission_required = ('cafeteria.view_ListarProducto') 
-    queryset = Producto.objects.all()
+    queryset = Producto.objects.all() 
 
-class CrearProducto(PermissionRequiredMixin, CreateView):
+class CrearProducto(PermissionRequiredMixin, CreateView):  
     model = Producto
     template_name = 'producto/producto.html'
     form_class = Producto_Form 
-    permission_required = ('cafeteria.add_CrearProducto')
-    def producto(self, request, *args, **kwargs):
-        messages.success(request,'El producto se ha guardado')    
+    permission_required = ('cafeteria.add_CrearProducto')    
     success_url = reverse_lazy('listar_producto')
 
 @permission_required('cafeteria.delete_eliminarProducto')
@@ -234,8 +245,7 @@ class UpdateProducto(PermissionRequiredMixin, UpdateView):
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id = producto_id)
-    carrito.agregar(producto)
-    alert = "Mensaje"
+    carrito.agregar(producto) 
     messages.success(request,'El producto '+ producto.nombre +' se ha agregado al carrito') 
     return redirect('/')
 
@@ -269,7 +279,7 @@ def comprar(request):
     # Devuelve la imagen como respuesta HTTP
     response = HttpResponse(content_type="image/png")
     img.save(response, "PNG") 
-    return response 
+    return response    
 
 @login_required
 def imagen(request):  

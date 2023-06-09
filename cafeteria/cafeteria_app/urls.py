@@ -7,6 +7,7 @@ urlpatterns = [
     path('preguntas-frecuentes/', views.PregFrec, name="faq"), 
     path('nosotros/', views.Nosotros, name='nosotros'),
     path('contacto/', views.contacto , name="contacto"), 
+    #Registro
     path('registro/', views.registro, name='registro'), 
     path('perfil/', views.perfil_usuario, name='perfil'),    
       #Proveedor 
@@ -29,7 +30,9 @@ urlpatterns = [
     path('limpiar/', views.limpiar_carrito, name='limpiar'),
     path('pagar/', views.comprar, name="comprar"), 
     #Buscador 
-    path('producto/', views.buscar, name="buscar"),
+    path('search/', views.search, name="s"), 
+    path('producto/', views.buscar, name="buscar"), 
+    #QR 
     path('modal', views.imagen, name="modal")
     
 ] 
